@@ -33,11 +33,11 @@ class MemeMeViewController: UIViewController, UINavigationControllerDelegate {
         actionButton.isEnabled = false
         setupTextField(textField: topTextField, text: "TOP")
         setupTextField(textField: bottomTextField, text: "BOTTOM")
+        setConstraintsForSize(size: view.frame.size)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setConstraintsForSize(size: view.frame.size)
         cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
         keyboardNotifications()
     }
@@ -47,10 +47,6 @@ class MemeMeViewController: UIViewController, UINavigationControllerDelegate {
         unsubscribeKeyboardNotifications()
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        setConstraintsForSize(size: size)
-    }
-    
     func setConstraintsForSize(size:CGSize) {
         let tempBool = size.width > size.height ? true : false
         leadConstr.isActive = !tempBool
@@ -58,7 +54,6 @@ class MemeMeViewController: UIViewController, UINavigationControllerDelegate {
         topConstr.isActive = tempBool
         bottomConstr.isActive = tempBool
     }
-    
     
     func keyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
